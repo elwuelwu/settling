@@ -18,6 +18,7 @@ actions = []
 amounts_of_actions = Dictionary(keys(payments), zeros(length(payments)))
 partition = Set()
 picked = []
+iters = 0
 #owesleft = copy(owes)
 while length(setdiff(inds, picked)) > 1
     for subset in subsets(setdiff(inds, picked))
@@ -25,14 +26,16 @@ while length(setdiff(inds, picked)) > 1
         if sum(getindices(owes, subset)) < 0.001
             push!(partition, subset)
             union!(picked, subset)
-            print(subset)
             break
         end
     end
-    if sum(getindices(owes, setdiff(inds, picked))) < 5
+    print(sum(getindices(owes, setdiff(inds, picked))))
+    if sum(getindices(owes, setdiff(inds, picked))) < 5.0
         union!(picked, setdiff(inds, picked))
         break
     end
+    iters += 1
+    if iters > 100; break; end
 end
 #display(picked)
 display(partition)
@@ -43,7 +46,7 @@ while true
     if abs(payer[1]) > abs(payee[1]); owes[payer[2]] += owes[payee[2]]; action = (payer[2], payee[2], owes[payee[2]]); owes[payee[2]] = 0;
     else owes[payee[2]] += owes[payer[2]]; action = (payer[2], payee[2], -owes[payer[2]]);  owes[payer[2]] = 0;
     end
-    #display(owes)
+    display(owes)
     amounts_of_actions[payer[2]] += 1
     push!(actions, action)
     if sum(map(abs, owes)) < 1; break
