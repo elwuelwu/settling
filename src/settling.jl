@@ -20,7 +20,6 @@ partition = Set()
 picked = []
 #owesleft = copy(owes)
 while length(setdiff(inds, picked)) > 1
-    print(length(setdiff(inds, picked)))
     for subset in subsets(setdiff(inds, picked))
         if length(subset) < 2; continue; end
         if sum(getindices(owes, subset)) < 0.001
@@ -30,7 +29,8 @@ while length(setdiff(inds, picked)) > 1
             break
         end
     end
-    if(sum(getindices(owes, setdiff(inds, picked))) < 5)
+    if sum(getindices(owes, setdiff(inds, picked))) < 5
+        union!(picked, setdiff(inds, picked))
         break
     end
 end
