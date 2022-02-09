@@ -1,0 +1,4 @@
+name = "settling"
+uuid = "8157b012-3af6-4658-bec6-b365415be89a"
+authors = ["Elias Heikkilä <heikkila.elias@gmail.com>"]
+version = "0.1.0"
